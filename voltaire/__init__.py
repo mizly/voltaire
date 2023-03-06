@@ -23,14 +23,15 @@ flow = Flow.from_client_secrets_file(
 
 def create_app(test_config=None):
     # create and configure the app
-    f = json.load(open("client_secret.json","r"))["web"]
-    print(f)
     app = Flask(__name__, instance_relative_config=True)
-    GOOGLE_CLIENT_ID =f["client_id"]
-    app.config.from_mapping(
-        SECRET_KEY=f["client_secret"], #replace if it doesn't work
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
-    )
+
+    with open("voltaire\client_secret.json","r") as f:
+        g = json.load(f)["web"]
+        GOOGLE_CLIENT_ID =g["client_id"]
+        app.config.from_mapping(
+            SECRET_KEY=g["client_secret"],
+            #DATABASE=os.path.join(app.instance_path, 'voltaire.sqlite'),
+        )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -97,7 +98,8 @@ def create_app(test_config=None):
     @login_is_required
     def account():
         return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
-    from flaskr import home, student, teacher
+
+    from voltaire import home, student, teacher
 
     app.register_blueprint(student.bp)
     app.register_blueprint(teacher.bp)

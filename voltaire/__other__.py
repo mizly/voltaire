@@ -9,7 +9,7 @@ from pip._vendor import cachecontrol
 import google.auth.transport.requests
 
 app = Flask("Google Login App")
-app.secret_key = "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" # make sure this matches with that's in client_secret.json
+app.secret_key = "" # make sure this matches with that's in client_secret.json
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
 
