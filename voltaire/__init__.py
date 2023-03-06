@@ -21,13 +21,22 @@ flow = Flow.from_client_secrets_file(
     redirect_uri="http://localhost:5000/callback"
 )
 
-def create_app(test_config=None):
-    # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+"""
+Application factory that can be instantiated multiple times simultaneously, generally for testing.
 
+Parameters:
+    None
+
+Returns:
+    app: the flask app to instantiate
+"""
+def create_app(test_config = None):
+    app = Flask(__name__, instance_relative_config = True)
+
+    #secrets!
     with open("voltaire\client_secret.json","r") as f:
         g = json.load(f)["web"]
-        GOOGLE_CLIENT_ID =g["client_id"]
+        GOOGLE_CLIENT_ID = g["client_id"]
         app.config.from_mapping(
             SECRET_KEY=g["client_secret"],
             #DATABASE=os.path.join(app.instance_path, 'voltaire.sqlite'),
