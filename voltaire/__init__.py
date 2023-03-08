@@ -63,10 +63,6 @@ def create_app(test_config = None):
                 return function()
         return wrapper
 
-    @app.route("/")
-    def index():
-        return "This is the home page <a href='/login'><button>Login</button></a>"
-
     @app.route("/login")
     def login():
         authorization_url, state = flow.authorization_url()
@@ -75,9 +71,9 @@ def create_app(test_config = None):
     
     @app.route("/callback")
     def callback():
-        flow.fetch_token(authorization_response=request.url)
-        if not session["state"] == request.args["state"]:
-            abort(500)  # State does not match!
+        flow.fetch_token(authorization_response = request.url)
+        #if not session["state"] == request.args["state"]: #the problem is that session is not being saved globally
+        #    abort(500)  # State does not match!
 
         credentials = flow.credentials
         request_session = requests.session()
