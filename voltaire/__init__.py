@@ -4,7 +4,7 @@ import pathlib
 import json
 
 import requests
-from flask import Flask, session, abort, redirect, request
+from flask import Flask, session, abort, redirect, request, render_template
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
@@ -37,11 +37,12 @@ def create_app(test_config = None):
     with open("voltaire\client_secret.json","r") as f:
         g = json.load(f)["web"]
         GOOGLE_CLIENT_ID = g["client_id"]
+        app.secret_key = g["client_secret"]
         app.config.from_mapping(
             SECRET_KEY=g["client_secret"],
             #DATABASE=os.path.join(app.instance_path, 'voltaire.sqlite'),
         )
-
+    print(GOOGLE_CLIENT_ID,app.secret_key)
     if test_config is None:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
@@ -65,7 +66,7 @@ def create_app(test_config = None):
 
     @app.route("/")
     def index():
-        return "This is the home page <a href='/login'><button>Login</button></a>"
+        return render_template("home/index.html")
 
     @app.route("/login")
     def login():
@@ -76,8 +77,7 @@ def create_app(test_config = None):
     @app.route("/callback")
     def callback():
         flow.fetch_token(authorization_response=request.url)
-        if not session["state"] == request.args["state"]:
-            abort(500)  # State does not match!
+        print(request.args["state"])
 
         credentials = flow.credentials
         request_session = requests.session()
