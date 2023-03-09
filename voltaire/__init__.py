@@ -4,7 +4,7 @@ import pathlib
 import json
 
 import requests
-from flask import Flask, session, abort, redirect, request, render_template
+from flask import Flask, session, abort, redirect, request, render_template, g
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
@@ -35,14 +35,14 @@ def create_app(test_config = None):
 
     #secrets!
     with open("voltaire\client_secret.json","r") as f:
-        g = json.load(f)["web"]
-        GOOGLE_CLIENT_ID = g["client_id"]
-        app.secret_key = g["client_secret"]
+        j = json.load(f)["web"]
+        GOOGLE_CLIENT_ID = j["client_id"]
+        app.secret_key = j["client_secret"]
         app.config.from_mapping(
-            SECRET_KEY=g["client_secret"],
-            #DATABASE=os.path.join(app.instance_path, 'voltaire.sqlite'),
+            SECRET_KEY = j["client_secret"],
+            #DATABASE = os.path.join(app.instance_path, 'voltaire.sqlite'),
         )
-    print(GOOGLE_CLIENT_ID,app.secret_key)
+    print(GOOGLE_CLIENT_ID,app.secret_key) #HEYYY DON'T FORGET ABOUT THIS! -------------------------------------------------------------------
     if test_config is None:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
@@ -61,12 +61,13 @@ def create_app(test_config = None):
             if "google_id" not in session:
                 return abort(401)  # Authorization required
             else:
-                return function()
+                return function() #Is this just to return nothing? you can use just "return" in that case
         return wrapper
+    
+    @app.before_request
+    def load_user():
+        g.user = session.get("name") #.get() to allow for None return
 
-    @app.route("/")
-    def index():
-        return render_template("home/index.html")
     @app.route("/login")
     def login():
         authorization_url, state = flow.authorization_url()
@@ -76,8 +77,8 @@ def create_app(test_config = None):
     @app.route("/callback")
     def callback():
         flow.fetch_token(authorization_response = request.url)
-        #if not session["state"] == request.args["state"]: #the problem is that session is not being saved globally
-        #    abort(500)  # State does not match!
+        if not session["state"] == request.args["state"]: #the problem is that session is not being saved globally
+            abort(500)  # State does not match!
 
         credentials = flow.credentials
         request_session = requests.session()
