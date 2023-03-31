@@ -4,7 +4,7 @@ import pathlib
 import json
 
 import requests
-from flask import Flask, session, abort, redirect, request, render_template, g
+from flask import Flask, abort, g, session, redirect, request
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
@@ -37,7 +37,6 @@ def create_app(test_config = None):
     with open("voltaire\client_secret.json","r") as f:
         j = json.load(f)["web"]
         GOOGLE_CLIENT_ID = j["client_id"]
-        app.secret_key = j["client_secret"]
         app.config.from_mapping(
             SECRET_KEY = j["client_secret"],
             #DATABASE = os.path.join(app.instance_path, 'voltaire.sqlite'),
@@ -57,16 +56,17 @@ def create_app(test_config = None):
         pass
 
     def login_is_required(function):
-        def wrapper(*args, **kwargs):
+        def wrapper():
             if "google_id" not in session:
                 return abort(401)  # Authorization required
             else:
-                return function() #Is this just to return nothing? you can use just "return" in that case
+                return function(g.type)
         return wrapper
     
     @app.before_request
     def load_user():
         g.user = session.get("name") #.get() to allow for None return
+        g.type = session.get("type")
 
     @app.route("/login")
     def login():
@@ -77,8 +77,8 @@ def create_app(test_config = None):
     @app.route("/callback")
     def callback():
         flow.fetch_token(authorization_response = request.url)
-        if not session["state"] == request.args["state"]: #the problem is that session is not being saved globally
-            abort(500)  # State does not match!
+        #if not session["state"] == request.args["state"]: #the problem is that session is not being saved globally
+        #    abort(500)  # State does not match!
 
         credentials = flow.credentials
         request_session = requests.session()
@@ -91,12 +91,16 @@ def create_app(test_config = None):
             audience=GOOGLE_CLIENT_ID
         )
 
+        print(id_info)
         session["google_id"] = id_info.get("sub")
         session["name"] = id_info.get("name")
-        domain = (id_info.get("email"))
-        print(session,domain)
-        if "@ocdsb.ca" in domain:
-            print("User is part of ocdsb.")
+        domain = id_info.get("hd")
+
+        if domain == "ocdsb.ca":
+            session["type"] = "student"
+        else:
+            session["type"] = "teacher"
+
         return redirect("/account")
 
     @app.route("/logout")
@@ -106,7 +110,12 @@ def create_app(test_config = None):
     
     @app.route("/account")
     @login_is_required
-    def account():
+    def account(user_type):
+        if user_type == "teacher":
+            return redirect("/t/")
+        elif user_type == "student":
+            return redirect("/s/")
+        
         return f"Hello {session['name']}! <br/> <a href='/logout'><button>Logout</button></a>"
 
     from voltaire import home, student, teacher
