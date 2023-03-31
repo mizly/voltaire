@@ -88,7 +88,8 @@ def create_app(test_config = None):
         id_info = id_token.verify_oauth2_token(
             id_token=credentials._id_token,
             request=token_request,
-            audience=GOOGLE_CLIENT_ID
+            audience=GOOGLE_CLIENT_ID,
+            clock_skew_in_seconds=2
         )
 
         print(id_info)
