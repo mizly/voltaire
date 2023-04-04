@@ -70,6 +70,7 @@ def create_app(test_config = None):
     
     @app.before_request
     def load_user():
+        #Primarily used for loading a page with specific characteristics
         g.user = session.get("name") #.get() to allow for None return
         g.type = session.get("type")
 
