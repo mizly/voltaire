@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+      html { 
+        background: url(static/assets/bg.jpg) no-repeat center center fixed; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+    </style>
 </head>
-
 <body>
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
@@ -16,10 +24,10 @@
               {% elif g.type == "student" %}
                 href="/s/"
               {else}
-                href-"/"
+                href="/"
               {% endif %}
             >
-              <img src="\static\assets\logo-white.png">
+              <img src="/static/assets/logo-white.png">
             </a>
 
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
