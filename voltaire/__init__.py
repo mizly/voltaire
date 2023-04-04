@@ -1,16 +1,21 @@
 #Least scuffed import
+import json
 import os
 import pathlib
-import json
 
 import requests
 from flask import Flask, abort, g, session, redirect, request
+from pymongo import MongoClient
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
 import google.auth.transport.requests
 
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
+#to allow http traffic for local dev
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
+#instantiates reference to mongdb server (the server contains the databases)
+client = MongoClient()
 
 GOOGLE_CLIENT_ID = "158531260771-q7vopkn3fu0l3gk6ar5s6vn9mr4s3aa1.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
@@ -21,16 +26,16 @@ flow = Flow.from_client_secrets_file(
     redirect_uri="http://localhost:5000/callback"
 )
 
-"""
-Application factory that can be instantiated multiple times simultaneously, generally for testing.
-
-Parameters:
-    None
-
-Returns:
-    app: the flask app to instantiate
-"""
 def create_app(test_config = None):
+    """
+    Application factory that can be instantiated multiple times simultaneously, generally for testing.
+
+    Parameters:
+        None
+
+    Returns:
+        app: the flask app to instantiate
+    """
     app = Flask(__name__, instance_relative_config = True)
 
     #secrets!
