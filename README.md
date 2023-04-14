@@ -1,4 +1,3 @@
-# voltaire
-french skillz
+# Voltaire
 
-money
+An open-source software for teachers to track their students' French learning progress.
