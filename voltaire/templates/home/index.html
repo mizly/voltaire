@@ -2,26 +2,42 @@
 {% block header %}
 <style>
     h1 {
-      letter-spacing: 10px;
+      letter-spacing: 5px;
+    }
+
+    .center {
+      margin: 0;
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .moveup {
+        transition: transform 1s;
+    }
+
+    .moveup:hover {
+      transform: translate(-50%, -75%);
+    }
+
+    .fadein {
+      transition: 0.7s;
+      opacity: 0;
+    }
+
+    .moveup:hover > .fadein {
+      opacity: 1;
     }
 </style>
-<span class="icon-text">
-    <span class="icon">
-      <i class="fas fa-home"></i>
-    </span>
-    <span>Home</span>
-  </span>
-<div class="container" style="white-space:nowrap">
-    <div style="display:inline;">
-        <img src="/static/assets/logo-blue.png" width=40>
-    </div>
 
-    <h1 class="has-text-link title is-1 has-text-weight-light" style="display:inline; white-space:nowrap;">
-        {% block title %}Voltaire{% endblock %}
+<div class="container center moveup">
+    <h1 class="has-text-link has-text-centered has-text-weight-light" style="font-size: 100px;;">
+      <span><img src="/static/assets/logo-blue.png" width="72"></span> {% block title %}Voltaire{% endblock %}
     </h1>
-</div>
-{% endblock %}
 
-{% block content %}
-    <p>Hello world!</p>
+    <h2 class="has-text-black has-text-centered has-text-weight-bold title is-3 fadein">
+      With great software comes great education
+   </h2>
+</div>
 {% endblock %}
