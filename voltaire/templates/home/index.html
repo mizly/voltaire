@@ -8,7 +8,6 @@
     .center {
       margin: 0;
       position: absolute;
-      top: 60%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -29,10 +28,15 @@
     .moveup:hover > .fadein {
       opacity: 1;
     }
+
+    .scroll-button
+    {
+      color:black;
+    }
 </style>
 
-<div class="container center moveup">
-    <h1 class="has-text-link has-text-centered has-text-weight-light" style="font-size: 100px;;">
+<div class="container center moveup" style="top: 50%;">
+    <h1 class="has-text-link has-text-centered has-text-weight-light" style="font-size: 100px;">
       <span><img src="/static/assets/logo-blue.png" width="72"></span> {% block title %}Voltaire{% endblock %}
     </h1>
 
@@ -40,4 +44,23 @@
       With great software comes great education
    </h2>
 </div>
+
+<div class ="center" style="top:65%;">
+  <h3 class="has-text-black has-text-centered has-text-weight-normal subtitle is-4">
+    Discover Voltaire - the leading French learning tracker platform
+ </h3>
+ <b></b>
+ <h4 class="has-text-black has-text-centered has-text-weight-bold title is-3" style="line-height:2">
+  Learn More
+  </h4>
+  <a href="#more"><i class="fa-solid fa-angle-down center scroll-button" style="font-size:48px; "></i></a>
+</div>
+
+<div class = "center" style="top:110%;">
+  <a href="#home"><i class="fa-solid fa-angle-up center scroll-button" style="font-size:48px; "></i></a>
+</div>
+<div id="more" class ="center columns" style="top: 200%;">
+    Made by Vu and Xiang.
+</div>
+
 {% endblock %}

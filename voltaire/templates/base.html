@@ -6,6 +6,7 @@
     <title> {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="icon" type="image/x-icon" href="/static/assets/logo-black.png">
+    <script src="https://kit.fontawesome.com/161cfb32c6.js" crossorigin="anonymous"></script>
     <style>
       html { 
         background: url(static/assets/bg.png) no-repeat center center fixed; 
@@ -13,11 +14,12 @@
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
+        scroll-behavior: smooth;
       }
     </style>
 </head>
 <body>
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <nav id="home" class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item"
               {% if g.type == "teacher" %}
