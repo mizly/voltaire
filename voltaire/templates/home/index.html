@@ -36,7 +36,7 @@
 </style>
 
 <div class="container center moveup" style="top: 50%;">
-    <h1 class="has-text-link has-text-centered has-text-weight-light" style="font-size: 100px;">
+    <h1 class="has-text-link-dark has-text-centered has-text-weight-light" style="font-size: 100px;">
       <span><img src="/static/assets/logo-blue.png" width="72"></span> {% block title %}Voltaire{% endblock %}
     </h1>
 
@@ -63,4 +63,27 @@
     Made by Vu and Xiang.
 </div>
 
+{% endblock %}
+
+{% block navbar_colour %}
+"navbar is-dark"
+{% endblock %}
+
+{% block navbar_start %}
+<div id="navbarBasicExample" class="navbar-menu">
+  <div class="navbar-start">
+    <a class="navbar-item">Home</a>
+    <a class="navbar-item">Contact</a>
+    <div class="navbar-item has-dropdown is-hoverable">
+      <a class="navbar-link">More</a>
+
+      <div class="navbar-dropdown">
+        <a class="navbar-item">when</a>
+        <a class="navbar-item">you</a>
+        <a class="navbar-item">see</a>
+        <hr class="navbar-divider">
+        <a class="navbar-item">it</a>
+      </div>
+    </div>
+  </div>
 {% endblock %}
