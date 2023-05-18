@@ -6,18 +6,22 @@
     <title> {% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css">
+    <link rel="icon" type="image/x-icon" href="/static/assets/logo-black.png">
+    <script src="https://kit.fontawesome.com/161cfb32c6.js" crossorigin="anonymous"></script>
     <style>
       html { 
-        background: url(static/assets/bg.jpg) no-repeat center center fixed; 
+        background: url(static/assets/bg.png) no-repeat center center fixed; 
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
+        scroll-behavior: smooth;
       }
     </style>
 </head>
 <body>
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <nav id="home" class= {% block navbar_colour %}{% endblock %} role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item"
               {% if g.type == "teacher" %}
@@ -37,23 +41,8 @@
               <span aria-hidden="true"></span>
             </a>
           </div>
-
-          <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-              <a class="navbar-item">Home</a>
-              <a class="navbar-item">Contact</a>
-              <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">More</a>
-
-                <div class="navbar-dropdown">
-                  <a class="navbar-item">when</a>
-                  <a class="navbar-item">you</a>
-                  <a class="navbar-item">see</a>
-                  <hr class="navbar-divider">
-                  <a class="navbar-item">it</a>
-                </div>
-              </div>
-            </div>
+          
+          {% block navbar_start %}{% endblock %}
 
             <div class="navbar-end">
                 <div class="navbar-item">
@@ -65,7 +54,15 @@
                     {% endif %}
                   </div>
                 </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link"><span class="fi fi-gb fis is-size-3"></span></a>
+  
+                  <div class="navbar-dropdown">
+                    <a class="navbar-item"><span class="fi fi-fr fis is-size-3"></span></a>
+                  </div>
+                </div>
               </div>
+              
     </nav>
 
     <section class="content">
