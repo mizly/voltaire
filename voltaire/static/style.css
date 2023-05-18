@@ -1,0 +1,12 @@
+/* https://stackoverflow.com/questions/12597897/how-do-i-make-a-table-scrollable */
+div.dbtable {
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 500px /* change to scale with screen size */
+}
+
+.th.fixed {
+    top: 0;
+    z-index: 2;
+    position: sticky
+}

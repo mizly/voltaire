@@ -5,5 +5,14 @@
 {% endblock %}
 
 {% block content %}
+    <div class="dbtable">
+        <table>
+            <tr>
+                {% for i in session %}
+                    <th>i</th>
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
     <p>Teacher momnent</p>
 {% endblock %}
