@@ -1,18 +1,19 @@
-#Least scuffed import
+# Generic libraries
 import json
 import os
 import pathlib
 
-#Clean this up at some point
-import requests
+# Flask library
 from flask import Flask, abort, g, session, redirect, request
+
+# Google API libraries
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
-from pip._vendor import cachecontrol
 import google.auth.transport.requests
-from voltaire.db import get_db
+from pip._vendor import cachecontrol
+import requests
 
-#to allow http traffic for local dev
+# Allow http traffic for local dev
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 GOOGLE_CLIENT_ID = "158531260771-q7vopkn3fu0l3gk6ar5s6vn9mr4s3aa1.apps.googleusercontent.com"
@@ -26,7 +27,7 @@ flow = Flow.from_client_secrets_file(
 
 def create_app(test_config = None):
     """
-    Application factory that can be instantiated multiple times simultaneously, generally for testing.
+    Application factory containing the Flask app. Can be instantiated multiple times simultaneously, generally for testing.
 
     Parameters:
         None
@@ -36,24 +37,21 @@ def create_app(test_config = None):
     """
     app = Flask(__name__, instance_relative_config = True)
 
-    #secrets!
+    # Configuring secret variables
     with open("voltaire\client_secret.json","r") as f:
         j = json.load(f)["web"]
         GOOGLE_CLIENT_ID = j["client_id"]
         app.config.from_mapping(
             SECRET_KEY = j["client_secret"],
-            #DATABASE = os.path.join(app.instance_path, 'voltaire.sqlite'),
         )
-    
-    print(GOOGLE_CLIENT_ID,app.secret_key) #HEYYY DON'T FORGET ABOUT THIS! -------------------------------------------------------------------
+
+    # Check if a testing configuration is passed, and load it if so
     if test_config is None:
-        # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
     else:
-        # load the test config if passed in
         app.config.from_mapping(test_config)
 
-    # ensure the instance folder exists
+    # Ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
     except OSError:
@@ -69,21 +67,19 @@ def create_app(test_config = None):
     
     @app.before_request
     def load_user():
-        #Primarily used for loading a page with specific characteristics
-        g.lang = session.get("lang") #temporarily unchangeable during development
+        # Primarily used for loading a page with specific characteristics
+        g.lang = session.get("lang") # temporarily unchangeable during development
         g.user = session.get("_id")
         g.type = session.get("type")
 
     @app.route("/login")
     def login():
-        print("login")
         authorization_url, state = flow.authorization_url()
         session["state"] = state
         return redirect(authorization_url)
     
     @app.route("/callback")
     def callback():
-        print("callback")
         flow.fetch_token(authorization_response = request.url)
         #if not session["state"] == request.args["state"]: #the problem is that session is not being saved globally
         #    abort(500)  # State does not match!
@@ -100,18 +96,18 @@ def create_app(test_config = None):
             clock_skew_in_seconds=2
         )
 
-        db = get_db()
-        print(db)
-        sdb = db.students
+        # Load the databse connection
+        dbLink = db.get_db()
+        sdb = dbLink.students
         sidb = sdb.info
         spdb = sdb.progress
 
-        tdb = db.teachers
+        tdb = dbLink.teachers
         tidb = tdb.info
 
-        cdb = db.classes
+        #cdb = dbLink.classes
 
-        #Checks if the login is a new user
+        # Checks if the login is a new user, and creates a new profile if so
         if sidb.find_one({"_id": id_info.get("sub")}) is None and tidb.find_one({"_id": id_info.get("sub")}) is None:
             new_user = {
                 "_id": id_info.get("sub"),
@@ -234,12 +230,11 @@ def create_app(test_config = None):
         if (entry := sidb.find_one({"_id": id_info.get("sub")})) is not None:
             print(entry)
             session["type"] = "student"
-            for key in entry:
-                session[key] = entry[key]
         elif (entry := tidb.find_one({"_id": id_info.get("sub")})) is not None:
             session["type"] = "teacher"
-            for key in entry:
-                session[key] = entry[key]
+                        
+        for key in entry:
+            session[key] = entry[key]
 
         print(session)
 
