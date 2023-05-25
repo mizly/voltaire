@@ -4,12 +4,17 @@
 {% endblock %}
 
 {% block content %}
-  {% for level in progress if not level == "_id" %}
-    <h2>{{level}}</h2>
-    {% for item in progress[level] %}
-      <li>{{item}}: {{progress[level][item]}}</li>
-    {% endfor %}
-  {% endfor %}
+  <h2>Hey there {{session["given_name"]}}!</h2>
+  <p>Since you're a new user, please make sure your account information is right!</p>
+  <form method="POST">
+    <label for="crade">Grade</label>
+    <input name="grade" id="grade" required>
+    </br>
+    <label for="class">Class</label>
+    <input name="class" id="class" required>
+    </br>
+    <input type="submit" value="Submit">
+  </form>
 {% endblock %}
 
 {% block navbar_colour %}
