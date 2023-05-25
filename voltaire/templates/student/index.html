@@ -4,7 +4,12 @@
 {% endblock %}
 
 {% block content %}
-    <p>This is just a nice way currently to get some html down</p>
+    {% for level in progress if not level == "_id" %}
+      <h2>{{level}}</h2>
+      {% for item in progress[level] %}
+        <li>{{item}}: {{progress[level][item]}}</li>
+      {% endfor %}
+    {% endfor %}
 {% endblock %}
 
 {% block navbar_colour %}

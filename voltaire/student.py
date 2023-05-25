@@ -17,4 +17,6 @@ def student_login(function):
 @bp.route("/")
 @student_login
 def index():
-    return render_template("student/index.html")
+    dbLink = db.get_db().students.progress
+    progress = dbLink.find_one({"_id": session["_id"]})
+    return render_template("student/index.html", progress = progress)
