@@ -13,6 +13,9 @@ def teacher_login(function):
         if session.get("type") != "teacher":
             return abort(401)
         return function()
+    
+    # Rename the wrapper to work for multiple functions
+    wrapper.__name__ = function.__name__
     return wrapper
 
 @bp.route("/")
@@ -23,3 +26,16 @@ def index():
     studentList = [i for i in dbLink.find()]
     
     return render_template("teacher/index.html", students = studentList)
+
+@bp.route("/settings/")
+@teacher_login
+def settings():
+    return render_template("teacher/settings.html")
+
+@bp.route("/view/")
+@teacher_login
+def view(_id):
+    dbLink = db.get_db().students.info
+    student = dbLink.find_one({"_id": _id})
+
+    return render_template("teacher/view.html", student = student)
