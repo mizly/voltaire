@@ -5,6 +5,24 @@
 {% endblock %}
 
 {% block content %}
+    <div class="dbtable">
+        <table>
+            <tr>
+                <th>Given Name</th>
+                <th>Family Name</th>
+                <th>Grade</th>
+                <th>Class</th>
+            </tr>
+            {% for student in students %}
+                <tr>
+                    <td>{{student["given_name"]}}</td>
+                    <td>{{student["family_name"]}}</td>
+                    <td>{{student["grade"]}}</td>
+                    <td>{{student["class"]}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
     <p>Teacher momnent</p>
 {% endblock %}
 
