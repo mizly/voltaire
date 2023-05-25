@@ -5,12 +5,12 @@ from voltaire import db
 
 #from werkzeug.security import check_password_hash, generatore_password_hash
 
-#__name__ passes name of this file, auth.py
+#__name__ passes name of this file, student.py
 bp = Blueprint("teacher", __name__, url_prefix = "/t")
 
 def teacher_login(function):
     def wrapper():
-        if session["type"] != "teacher":
+        if session.get("type") != "teacher":
             return abort(401)
         return function()
     return wrapper
