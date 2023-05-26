@@ -63,12 +63,11 @@
                     <a class="navbar-link"><span class="fi fi-fr fis is-size-3"></span></a>
                   {% endif %}
 
-
                   <div class="navbar-dropdown">
                       {% if session["lang"] == "en_CA" %}
-                        <a class="navbar-item" href={% set _ = session.update({"lang": "fr_CA"})%}><span class="fi fi-fr fis is-size-3"></span></a>
+                        <a class="navbar-item" href="/fr"><span class="fi fi-fr fis is-size-3"></span></a>
                       {% else %}
-                        <a class="navbar-item" href={% set _ = session.update({"lang": "en_CA"})%}><span class="fi fi-gb fis is-size-3"></span></a>
+                        <a class="navbar-item" href="/en"><span class="fi fi-gb fis is-size-3"></span></a>
                       {% endif %}
                   </div>
                 </div>

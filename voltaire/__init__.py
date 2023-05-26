@@ -21,9 +21,7 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 GOOGLE_CLIENT_ID = "158531260771-q7vopkn3fu0l3gk6ar5s6vn9mr4s3aa1.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
-app_language = ''
 languages = {}
-
 language_list = glob("voltaire/lang/*.json")
 for lang in language_list:
     filename = lang.split('\\')
@@ -88,6 +86,16 @@ def create_app(test_config = None):
         g.user = session.get("_id")
         g.type = session.get("type")
         print("end of load_user")
+
+    @app.route("/en")
+    def en():
+        session["lang"] = "en_CA"
+        return redirect(request.referrer)
+
+    @app.route("/fr")
+    def fr():
+        session["lang"] = "fr_CA"
+        return redirect(request.referrer)
 
     @app.route("/login")
     def login():
