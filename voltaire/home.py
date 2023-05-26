@@ -9,4 +9,4 @@ bp = Blueprint("home", __name__)
 
 @bp.route("/")
 def index():
-    return render_template("home/index.html", **languages["fr_CA"])
+    return render_template("home/index.html", **languages[session["lang"]])

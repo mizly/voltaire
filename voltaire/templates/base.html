@@ -10,8 +10,8 @@
     <link rel="icon" type="image/x-icon" href="/static/assets/logo-black.png">
     <script src="https://kit.fontawesome.com/161cfb32c6.js" crossorigin="anonymous"></script>
     <style>
-      html { 
-        background: url(static/assets/bg.png) no-repeat center center fixed; 
+      html {
+        background: url(static/assets/bg.png) no-repeat center center fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -41,28 +41,39 @@
               <span aria-hidden="true"></span>
             </a>
           </div>
-          
+
           {% block navbar_start %}{% endblock %}
 
             <div class="navbar-end">
                 <div class="navbar-item">
                   <div class="buttons">
                     {% if g.user %}
-                        <a href="/logout" class="button is-primary"><strong>Log Out</strong></a>
+                        <a href="/logout" class="button is-primary"><strong>{{logout}}</strong></a>
                     {% else %}
-                        <a href="/login" class="button is-primary"><strong>Log In</strong></a>
+                        <a href="/login" class="button is-primary"><strong>{{login}}</strong></a>
                     {% endif %}
                   </div>
                 </div>
+
+
                 <div class="navbar-item has-dropdown is-hoverable">
-                  <a class="navbar-link"><span class="fi fi-gb fis is-size-3"></span></a>
-  
+                  {% if session["lang"] == "en_CA" %}
+                    <a class="navbar-link"><span class="fi fi-gb fis is-size-3"></span></a>
+                  {% else %}
+                    <a class="navbar-link"><span class="fi fi-fr fis is-size-3"></span></a>
+                  {% endif %}
+
+
                   <div class="navbar-dropdown">
-                    <a class="navbar-item"><span class="fi fi-fr fis is-size-3"></span></a>
+                      {% if session["lang"] == "en_CA" %}
+                        <a class="navbar-item" href={% set _ = session.update({"lang": "fr_CA"})%}><span class="fi fi-fr fis is-size-3"></span></a>
+                      {% else %}
+                        <a class="navbar-item" href={% set _ = session.update({"lang": "en_CA"})%}><span class="fi fi-gb fis is-size-3"></span></a>
+                      {% endif %}
                   </div>
                 </div>
               </div>
-              
+
     </nav>
 
     <section class="content">

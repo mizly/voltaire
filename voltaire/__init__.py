@@ -21,8 +21,7 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 GOOGLE_CLIENT_ID = "158531260771-q7vopkn3fu0l3gk6ar5s6vn9mr4s3aa1.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
-app_language = 'en_CA'
-locale.setlocale(locale.LC_ALL, app_language)
+app_language = ''
 languages = {}
 
 language_list = glob("voltaire/lang/*.json")
@@ -81,10 +80,14 @@ def create_app(test_config = None):
 
     @app.before_request
     def load_user():
+        print("beginnign of load_user")
         # Primarily used for loading a page with specific characteristics
+        if session.get("lang") is None:
+            session["lang"] = "en_CA"
         g.lang = session.get("lang") # temporarily unchangeable during development
         g.user = session.get("_id")
         g.type = session.get("type")
+        print("end of load_user")
 
     @app.route("/login")
     def login():
