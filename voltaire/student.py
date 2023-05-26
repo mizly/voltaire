@@ -14,7 +14,7 @@ def student_login(function):
         if session.get("type") != "student":
             return abort(401)
         return function()
-    
+
     # Rename the wrapper to work for multiple functions
     wrapper.__name__ = function.__name__
     return wrapper
@@ -36,7 +36,7 @@ def welcome():
         _class = request.form["class"]
 
         dbLink.update_one({"_id": session["_id"]}, {"$set": {"grade": _grade, "class": _class}})
-        
+
         return redirect(url_for("student.index"))
 
     _id = dbLink.find_one({"_id": session["_id"]})
@@ -69,8 +69,8 @@ def settings():
             }})
 
             return redirect(url_for("student.settings"))
-        
+
         # Inform the user of the specific invalid input
         flash(error)
 
-    return render_template("student/settings.html")
+    return render_template("student/settings.html",**languages[session["lang"]])

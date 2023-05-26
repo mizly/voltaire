@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block header %}
-    <h1>{% block title %}Student{% endblock %}</h1>
+    <h1>{% block title %}{{your_progress}}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,7 @@
 {% block navbar_start %}
 <div id="navbarBasicExample" class="navbar-menu">
   <div class="navbar-start">
-    <a class="navbar-item">{{home}}</a>
+    <a class="navbar-item" href={{url_for("student.settings")}}>{{settings}}</a>
     <p class="navbar-item">{{welcome}}, {{session["given_name"]}}!</p>
   </div>
 {% endblock %}

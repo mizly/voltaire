@@ -13,5 +13,7 @@
   "name": "Nom",
   "last_name": "Nom de famille",
   "grade": "Année",
-  "search": "Cherchez"
+  "search": "Cherchez",
+  "your_progress": "Votre Avancement",
+  "settings": "Settings"
 }

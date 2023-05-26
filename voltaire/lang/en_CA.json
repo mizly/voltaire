@@ -13,5 +13,7 @@
   "name": "Name",
   "last_name": "Last Name",
   "grade": "Grade",
-  "search": "Search"
+  "search": "Search",
+  "your_progress": "Your Progress",
+  "settings": "Settings"
 }
