@@ -6,7 +6,7 @@ import locale
 from glob import glob
 
 # Flask library
-from flask import Flask, abort, g, session, redirect, request
+from flask import Flask, abort, g, session, redirect, request, url_for
 
 # Google API libraries
 from google.oauth2 import id_token
@@ -79,14 +79,10 @@ def create_app(test_config = None):
     @app.before_first_request
     def preset():
         session["lang"] = "en_CA"
-        session["type"] = "home"
 
     @app.before_request
     def load_user():
-        # Primarily used for loading a page with specific characteristics
-        if session.get("lang") is None:
-            session["lang"] = "en_CA"
-        g.lang = session.get("lang") # temporarily unchangeable during development
+        g.lang = session.get("lang")
         g.user = session.get("_id")
         g.type = session.get("type")
 
@@ -121,7 +117,7 @@ def create_app(test_config = None):
             id_token=credentials._id_token,
             request=token_request,
             audience=GOOGLE_CLIENT_ID,
-            clock_skew_in_seconds=2
+            clock_skew_in_seconds=2 # I love hotfixes
         )
 
         # Load the databse connection
@@ -164,19 +160,21 @@ def create_app(test_config = None):
     @app.route("/logout")
     def logout():
         session.clear()
-        return redirect("/")
+        session["lang"] = "en_CA"
+        return redirect(url_for("home.index"))
 
     @app.route("/account")
     @login_is_required
     def account(user_type):
-        if user_type == "teacher":
-            return redirect("/t/")
-        elif user_type == "student":
-            return redirect("/s/")
+        #user_type is either student or teacher
+        return redirect(url_for(f"{user_type}.index"))
 
     from voltaire import account, db, home, student, teacher
 
+    # Declare db connection
     db.init_app(app)
+
+    # Add blueprints
     app.register_blueprint(student.bp)
     app.register_blueprint(teacher.bp)
     app.register_blueprint(home.bp)

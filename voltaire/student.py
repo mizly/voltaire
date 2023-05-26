@@ -26,7 +26,7 @@ def index():
     progress = dbLink.find_one({"_id": session["_id"]})
     return render_template("student/index.html", progress = progress, **languages[session["lang"]])
 
-@bp.route("/welcome/", methods = ("GET", "POST"))
+@bp.route("/welcome", methods = ("GET", "POST"))
 @student_login
 def welcome():
     dbLink = get_db().students.info
@@ -42,7 +42,7 @@ def welcome():
     _id = dbLink.find_one({"_id": session["_id"]})
     return render_template("student/welcome.html", profile = _id)
 
-@bp.route("/settings/", methods = ("GET", "POST"))
+@bp.route("/settings", methods = ("GET", "POST"))
 @student_login
 def settings():
     dbLink = get_db().students.info
