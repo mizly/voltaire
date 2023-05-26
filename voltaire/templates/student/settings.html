@@ -26,7 +26,7 @@
 {% block navbar_start %}
 <div id="navbarBasicExample" class="navbar-menu">
   <div class="navbar-start">
-    <a class="navbar-item">Home</a>
-    <p class="navbar-item">Welcome, {{session["given_name"]}}!</p>
+    <a class="navbar-item" href={{url_for("student.settings")}}>{{settings}}</a>
+    <p class="navbar-item">{{welcome}}, {{session["given_name"]}}!</p>
   </div>
 {% endblock %}

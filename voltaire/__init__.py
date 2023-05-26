@@ -79,7 +79,6 @@ def create_app(test_config = None):
     @app.before_first_request
     def preset():
         session["lang"] = "en_CA"
-        session["type"] = "home"
 
     @app.before_request
     def load_user():
