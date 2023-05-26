@@ -21,7 +21,7 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 GOOGLE_CLIENT_ID = "158531260771-q7vopkn3fu0l3gk6ar5s6vn9mr4s3aa1.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
-app_language = ''
+# trust :)
 languages = {}
 
 language_list = glob("voltaire/lang/*.json")
@@ -77,17 +77,20 @@ def create_app(test_config = None):
             else:
                 return function(g.type)
         return wrapper
+    
+    @app.before_first_request
+    def preset():
+        session["lang"] = "en_CA"
+        session["type"] = "home"
 
     @app.before_request
     def load_user():
-        print("beginnign of load_user")
         # Primarily used for loading a page with specific characteristics
         if session.get("lang") is None:
             session["lang"] = "en_CA"
         g.lang = session.get("lang") # temporarily unchangeable during development
         g.user = session.get("_id")
         g.type = session.get("type")
-        print("end of load_user")
 
     @app.route("/login")
     def login():
@@ -133,131 +136,10 @@ def create_app(test_config = None):
                     isTeacher = True
 
             if isTeacher:
-                new_teacher = {
-                    "_id": id_info.get("sub"),
-                    "given_name": id_info.get("given_name"),
-                    "family_name": id_info.get("family_name"),
-                    "class": []
-                }
-
-                tidb.insert_one(new_teacher)
-
+                tidb.insert_one(account.new_teacher(id_info))
             else:
-                new_student = {
-                    "_id": id_info.get("sub"),
-                    "given_name": id_info.get("given_name"),
-                    "family_name": id_info.get("family_name"),
-                    "grade": None,
-                    "class": ""
-                }
-
-                progress = {
-                    "_id": id_info.get("sub"),
-                    "1a": {
-                        "avoir/etre/il y a": 0,
-                        "les articles": 0,
-                        "pronoms sujets": 0,
-                        "les mots interrogatifs": 0
-                    },
-                    "1b": {
-                        "present regulier": 0,
-                        "la negation": 0,
-                        "adjectif regulier + emploi": 0,
-                        "les prepositions 1": 0,
-                        "les mots liens 1": 0
-                    },
-                    "2a": {
-                        "present": 0,
-                        "futur proche": 0,
-                        "les adverbes": 0,
-                        "interrogation inverse": 0
-                    },
-                    "2b": {
-                        "adjectifs possessifs et demonstratifs": 0,
-                        "verbes pronominaux": 0,
-                        "adjectifs": 0,
-                        "les prepositions 2": 0,
-                        "imperatif": 0
-                    },
-                    "3a": {
-                        "comparatif et superlatif": 0,
-                        "adjectifs irreguliers": 0,
-                        "adverbes": 0,
-                        "jouer a, de + fare de": 0
-                    },
-                    "3b": {
-                        "les mots lien 2": 0,
-                        "complements d'object direct": 0,
-                        "passe compose reguliers": 0,
-                        "futur simple": 0
-                    },
-                    "4a": {
-                        "present oir": 0,
-                        "imperatif employe avec cod": 0,
-                        "present avec changement orthographique": 0,
-                        "la negation du passse compose": 0,
-                    },
-                    "4b": {
-                        "les participes passes irreguliers + pronominaux + negation": 0,
-                        "imparfait + engation": 0,
-                        "completions d'object indirect": 0,
-                        "conditionnel present": 0
-                    },
-                    "5a": {
-                        "concordance des temps 1": 0,
-                        "imperatif employe avec coi": 0,
-                        "phrases de conditions 1": 0,
-                        "y et en": 0
-                    },
-                    "5b": {
-                        "verbes avec prepositions": 0,
-                        "passe compose avec cod + accord": 0,
-                        "subjonctif 1": 0
-                    },
-                    "6a": {
-                        "pronoms possessifs et relatifs": 0,
-                        "les mots liens 3": 0,
-                        "participe passe employe comme adjectif": 0,
-                        "subjonctif 2": 0
-                    },
-                    "6b": {
-                        "participe present": 0,
-                        "plus-que-parfait": 0,
-                        "futur anterieur": 0,
-                        "conditionnel passe": 0,
-                        "subjonctif 3": 0
-                    },
-                    "7a": {
-                        "pronoms relatifs composes": 0,
-                        "concordance des temps 2": 0,
-                        "subjonctif 4": 0
-                    },
-                    "7b": {
-                        "subjonctif 5": 0,
-                        "phrases de condition 2": 0
-                    },
-                    "8a": {
-                        "pronoms demonstratifs": 0,
-                        "passe simple - emploi": 0,
-                        "subjonctif 6": 0
-                    },
-                    "8b": {
-                        "gerondif et adjectif verbal": 0,
-                        "concordance des modes": 0
-                    },
-                    "9a": {
-                        "gerondif et adjectif verbal - participe present": 0,
-                        "passe simple - emploi dans un texte": 0,
-                        "subjonctif passe 1": 0
-                    },
-                    "9b": {
-                        "la voix passive": 0,
-                        "subjonctif passe 2": 0
-                    }
-                }
-
-                sidb.insert_one(new_student)
-                spdb.insert_one(progress)
+                sidb.insert_one(account.new_student(id_info))
+                spdb.insert_one(account.new_progress(id_info))
 
         # Fetches the user's information and stores it in the session
         if (entry := sidb.find_one({"_id": id_info.get("sub")})) is not None:
@@ -283,7 +165,7 @@ def create_app(test_config = None):
         elif user_type == "student":
             return redirect("/s/")
 
-    from voltaire import db, home, student, teacher
+    from voltaire import account, db, home, student, teacher
 
     db.init_app(app)
     app.register_blueprint(student.bp)
