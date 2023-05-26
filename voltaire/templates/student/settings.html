@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block header %}
+    <h1>{% block title %}Settings{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="POST">
+    <label for="crade">Grade</label>
+    <input name="grade" id="grade" required>
+    </br>
+    <label for="class">Class</label>
+    <input name="class" id="class" required>
+    </br>
+    <input type="submit" value="Submit">
+    <label for="lang">Default Langauge</label>
+    <input name="lang" id="lang" required>
+    </br>
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}
+
+{% block navbar_colour %}
+"navbar is-link"
+{% endblock %}
+
+{% block navbar_start %}
+<div id="navbarBasicExample" class="navbar-menu">
+  <div class="navbar-start">
+    <a class="navbar-item">Home</a>
+    <p class="navbar-item">Welcome, {{session["given_name"]}}!</p>
+  </div>
+{% endblock %}
