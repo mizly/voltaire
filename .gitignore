@@ -1,5 +1,5 @@
-*.json
-
+client_secret.json
+database.json
 .DS_Store
 .env
 .flaskenv
