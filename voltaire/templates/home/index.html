@@ -41,17 +41,17 @@
     </h1>
 
     <h2 class="has-text-black has-text-centered has-text-weight-bold title is-3 fadein">
-      With great software comes great education
+      {{tagline}}
    </h2>
 </div>
 
 <div class ="center" style="top:65%;">
   <h3 class="has-text-black has-text-centered has-text-weight-normal subtitle is-4">
-    Discover Voltaire - the leading French learning tracker platform
+    {{discover}}
  </h3>
  <b></b>
  <h4 class="has-text-black has-text-centered has-text-weight-bold title is-3" style="line-height:2">
-  Learn More
+  {{learn_more}}
   </h4>
   <a href="#more"><i class="fa-solid fa-angle-down center scroll-button" style="font-size:48px; "></i></a>
 </div>
@@ -72,10 +72,10 @@
 {% block navbar_start %}
 <div id="navbarBasicExample" class="navbar-menu">
   <div class="navbar-start">
-    <a class="navbar-item">Home</a>
-    <a class="navbar-item">Contact</a>
+    <a class="navbar-item">{{home}}</a>
+    <a class="navbar-item">{{contact}}</a>
     <div class="navbar-item has-dropdown is-hoverable">
-      <a class="navbar-link">More</a>
+      <a class="navbar-link">{{more}}</a>
 
       <div class="navbar-dropdown">
         <a class="navbar-item">when</a>

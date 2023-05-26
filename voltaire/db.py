@@ -5,10 +5,10 @@ from flask import g
 def get_db():
     """
     Creates a connection to the MongoDB database.
-    
+
     Parameters:
         None
-    
+
     Returns:
         None
     """
@@ -18,16 +18,16 @@ def get_db():
             #j = json.load(f)
             #g.db = MongoClient(j["connection"])
             g.db = MongoClient()
-        
+
         return g.db
 
 def close_db(e = None):
     """
     Closes the connection to the MongoDB database.
-    
+
     Parameters:
         e (default None): the error to handle, if applicable
-    
+
     Returns:
         None
     """
@@ -41,12 +41,12 @@ def close_db(e = None):
 def init_app(app):
     """
     Creates a connection to the MongoDB database. Called during app initialization.
-    
+
     Parameters:
         app: the app being passed
-    
+
     Returns:
         None
     """
-    # Tells Flask to call close_db() after each application context 
+    # Tells Flask to call close_db() after each application context
     app.teardown_appcontext(close_db)

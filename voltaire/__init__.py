@@ -2,6 +2,8 @@
 import json
 import os
 import pathlib
+import locale
+from glob import glob
 
 # Flask library
 from flask import Flask, abort, g, session, redirect, request
@@ -18,6 +20,18 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 GOOGLE_CLIENT_ID = "158531260771-q7vopkn3fu0l3gk6ar5s6vn9mr4s3aa1.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
+
+app_language = 'en_CA'
+locale.setlocale(locale.LC_ALL, app_language)
+languages = {}
+
+language_list = glob("voltaire/lang/*.json")
+for lang in language_list:
+    filename = lang.split('\\')
+    lang_code = filename[1].split('.')[0]
+
+    with open(lang, 'r', encoding='utf8') as file:
+      languages[lang_code] = json.loads(file.read())
 
 flow = Flow.from_client_secrets_file(
     client_secrets_file=client_secrets_file,
@@ -64,7 +78,7 @@ def create_app(test_config = None):
             else:
                 return function(g.type)
         return wrapper
-    
+
     @app.before_request
     def load_user():
         # Primarily used for loading a page with specific characteristics
@@ -77,7 +91,7 @@ def create_app(test_config = None):
         authorization_url, state = flow.authorization_url()
         session["state"] = state
         return redirect(authorization_url)
-    
+
     @app.route("/callback")
     def callback():
         flow.fetch_token(authorization_response = request.url)
@@ -114,7 +128,7 @@ def create_app(test_config = None):
                 j = json.load(f)
                 if id_info.get("email") in j["teachers"]:
                     isTeacher = True
-            
+
             if isTeacher:
                 new_teacher = {
                     "_id": id_info.get("sub"),
@@ -124,7 +138,7 @@ def create_app(test_config = None):
                 }
 
                 tidb.insert_one(new_teacher)
-            
+
             else:
                 new_student = {
                     "_id": id_info.get("sub"),
@@ -247,7 +261,7 @@ def create_app(test_config = None):
             session["type"] = "student"
         elif (entry := tidb.find_one({"_id": id_info.get("sub")})) is not None:
             session["type"] = "teacher"
-                        
+
         for key in entry:
             session[key] = entry[key]
 
@@ -257,7 +271,7 @@ def create_app(test_config = None):
     def logout():
         session.clear()
         return redirect("/")
-    
+
     @app.route("/account")
     @login_is_required
     def account(user_type):
@@ -269,10 +283,9 @@ def create_app(test_config = None):
     from voltaire import db, home, student, teacher
 
     db.init_app(app)
-
     app.register_blueprint(student.bp)
     app.register_blueprint(teacher.bp)
     app.register_blueprint(home.bp)
     app.add_url_rule("/", endpoint = "index")
-    
+
     return app
