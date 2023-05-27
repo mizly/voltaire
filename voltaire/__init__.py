@@ -157,17 +157,17 @@ def create_app(test_config = None):
 
         return redirect("/account")
 
-    @app.route("/logout")
-    def logout():
-        session.clear()
-        session["lang"] = "en_CA"
-        return redirect(url_for("home.index"))
-
     @app.route("/account")
     @login_is_required
     def account(user_type):
         #user_type is either student or teacher
         return redirect(url_for(f"{user_type}.index"))
+
+    @app.route("/logout")
+    def logout():
+        session.clear()
+        session["lang"] = "en_CA"
+        return redirect(url_for("home.index"))
 
     from voltaire import account, db, home, student, teacher
 
