@@ -5,14 +5,19 @@
 
 {% block content %}
   <form method="POST">
-    <label for="crade">Grade</label>
-    <input name="grade" id="grade" required>
+    <label for="crade">Grade (9-12)</label>
+    <input type="number" name="grade" id="grade" min="9" max="12" title="Must be between 9 and 12" required>
     </br>
     <label for="class">Class</label>
-    <input name="class" id="class" required>
+    <input type="text" name="class" id="class" required>
     </br>
     <label for="lang">Default Langauge</label>
-    <input name="lang" id="lang" required>
+    </br>
+    <label for="en_CA">English (Canada)</label>
+    <input type="radio" name="lang" id="en_CA" value="en_CA" required>
+    </br>
+    <label for="fr_CA">Français (Canada)</label>
+    <input type="radio" name="lang" id="fr_CA" value="fr_CA" required>
     </br>
     <input type="submit" value="Submit">
   </form>

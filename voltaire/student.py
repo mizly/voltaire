@@ -26,51 +26,23 @@ def index():
     progress = dbLink.find_one({"_id": session["_id"]})
     return render_template("student/index.html", progress = progress, **languages[session["lang"]])
 
-@bp.route("/welcome", methods = ("GET", "POST"))
-@student_login
-def welcome():
-    dbLink = get_db().students.info
-
-    if request.method == "POST":
-        _grade = request.form["grade"]
-        _class = request.form["class"]
-
-        dbLink.update_one({"_id": session["_id"]}, {"$set": {"grade": _grade, "class": _class}})
-
-        return redirect(url_for("student.index"))
-
-    _id = dbLink.find_one({"_id": session["_id"]})
-    return render_template("student/welcome.html", profile = _id)
-
 @bp.route("/settings", methods = ("GET", "POST"))
 @student_login
 def settings():
     dbLink = get_db().students.info
 
     if request.method == "POST":
-        # Collect errors like it's trash
-        error = []
+        _grade = int(request.form["grade"])
+        _class = request.form["class"]
+        default_lang = request.form["lang"]
 
-        # Check for invalid input
-        if not isinstance(request.form["grade"], int):
-            error.append("Grade must be a number!")
-        if not isinstance(request.form["grade"], int):
-            error.append("Class must")
+        dbLink.update_one({"_id": session["_id"]}, {"$set": {
+            "grade": _grade,
+            "class": _class,
+            "lang": default_lang
+        }})
 
-        if error == []:
-            _grade = int(request.form["grade"])
-            _class = int(request.form["class"])
-            default_lang = request.form["lang"]
-
-            dbLink.update_one({"_id": session["_id"]}, {"$set": {
-                "grade": _grade,
-                "class": _class,
-                "default_lang": default_lang
-            }})
-
-            return redirect(url_for("student.settings"))
-
-        # Inform the user of the specific invalid input
-        flash(error)
+        session["lang"] = default_lang
+        flash(f"It worked! {_grade} {_class} {default_lang}")
 
     return render_template("student/settings.html",**languages[session["lang"]])

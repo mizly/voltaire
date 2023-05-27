@@ -13,7 +13,7 @@ def new_teacher(id_info):
         "given_name": id_info.get("given_name"),
         "family_name": id_info.get("family_name"),
         "class": [],
-        "default_lang": "en_CA"
+        "lang": "en_CA"
     }
 
     return teacher
@@ -34,7 +34,7 @@ def new_student(id_info):
         "family_name": id_info.get("family_name"),
         "grade": None,
         "class": "",
-        "default_lang": "en_CA"
+        "lang": "en_CA"
     }
 
     return student
