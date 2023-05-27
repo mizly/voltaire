@@ -1,14 +1,57 @@
 {% extends "base.html" %}
 {% block header %}
+    <div class = "container">
+      <br></br>
     <h1>{% block title %}{{your_progress}}{% endblock %}</h1>
+    </div>
 {% endblock %}
 
 {% block content %}
   {% for level in progress if not level == "_id" %}
-    <h2>{{level}}</h2>
-    {% for item in progress[level] %}
-      <li>{{item}}: {{progress[level][item]}}</li>
-    {% endfor %}
+  <div class="container">
+    <div class="notification">
+
+        <div class="tile is-vertical is-ancestor">
+          <div class = "tile">
+           <div class="tile is-parent is-10">
+             <div class="tile is-child">
+               <article class="tile is-child notification is-primary">
+                 <p class="title">{{level}}</p>
+               </article>
+             </div>
+           </div>
+           <div class="tile is-parent">
+             <div class="tile is-child">
+               <article class="tile is-child notification is-danger">
+                 <p class="title">3 stars!!!</p>
+               </article>
+             </div>
+           </div>
+           </div>
+
+           <div class="tile">
+             {% for item in progress[level] %}
+               <div class="tile is-parent">
+                 <div class = "tile is-child box">
+                   <article class="tile">
+                     <p class="title">{{item}}: {{progress[level][item]}}</p>
+                   </article>
+                 </div>
+               </div>
+             {% endfor %}
+             {% for i in range(5-progress[level]|length) %}
+             <div class="tile is-parent">
+               <div class = "tile is-child">
+                 <article class="tile">
+                   <p class="title"></p>
+                 </article>
+               </div>
+             </div>
+             {% endfor %}
+           </div>
+
+      </div>
+    </div>
   {% endfor %}
 {% endblock %}
 
