@@ -76,12 +76,9 @@ def create_app(test_config = None):
                 return function(g.type)
         return wrapper
 
-    @app.before_first_request
-    def preset():
-        session["lang"] = "en_CA"
-
     @app.before_request
     def load_user():
+        session["lang"] = "en_CA"
         g.lang = session.get("lang")
         g.user = session.get("_id")
         g.type = session.get("type")
