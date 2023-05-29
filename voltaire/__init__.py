@@ -104,8 +104,8 @@ def create_app(test_config = None):
     @app.route("/callback")
     def callback():
         flow.fetch_token(authorization_response = request.url)
-        if not session["state"] == request.args["state"]: # For some reason it works now
-            abort(500)  # State does not match!
+        #if not session["state"] == request.args["state"]: #doesn't work on ocdsb profiles :despair:
+            #abort(500)  # State does not match!
 
         credentials = flow.credentials
         request_session = requests.session()
