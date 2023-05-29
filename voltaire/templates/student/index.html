@@ -23,7 +23,7 @@
            <div class="tile is-parent">
              <div class="tile is-child">
                <article class="tile is-child notification is-danger">
-                 <p class="title">3 stars!!!</p>
+                 <p class="title">{{progress[level].values()|sum}}/{{4*(progress[level]|length)}}</p>
                </article>
              </div>
            </div>
