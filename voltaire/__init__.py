@@ -78,7 +78,9 @@ def create_app(test_config = None):
 
     @app.before_request
     def load_user():
-        session["lang"] = "en_CA"
+        if session.get("lang") is None:
+            session["lang"] = "en_CA"
+
         g.lang = session.get("lang")
         g.user = session.get("_id")
         g.type = session.get("type")
@@ -102,8 +104,8 @@ def create_app(test_config = None):
     @app.route("/callback")
     def callback():
         flow.fetch_token(authorization_response = request.url)
-        #if not session["state"] == request.args["state"]: #the problem is that session is not being saved globally
-        #    abort(500)  # State does not match!
+        if not session["state"] == request.args["state"]: # For some reason it works now
+            abort(500)  # State does not match!
 
         credentials = flow.credentials
         request_session = requests.session()
@@ -131,6 +133,7 @@ def create_app(test_config = None):
         # Checks if the login is a new user, and creates a new profile if so
         if sidb.find_one({"_id": id_info.get("sub")}) is None and tidb.find_one({"_id": id_info.get("sub")}) is None:
             isTeacher = False
+            # Checks if the login is a teacher
             with open("voltaire\database.json","r") as f:
                 j = json.load(f)
                 if id_info.get("email") in j["teachers"]:
