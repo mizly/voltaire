@@ -52,105 +52,105 @@ def new_progress(id_info):
     progress = {
         "_id": id_info.get("sub"),
         "1a": {
-            "avoir/etre/il y a": 0,
-            "les articles": 0,
-            "pronoms sujets": 0,
-            "les mots interrogatifs": 0
+            "Avoir/Être/Il y a": 0,
+            "Les articles": 0,
+            "Pronoms sujets": 0,
+            "Les mots interrogatifs": 0
         },
         "1b": {
-            "present regulier": 0,
-            "la negation": 0,
-            "adjectif regulier + emploi": 0,
-            "les prepositions 1": 0,
-            "les mots liens 1": 0
+            "Présent régulier": 0,
+            "La négation": 0,
+            "Adjectif régulier + emploi": 0,
+            "Les prépositions 1": 0,
+            "Les mots liens 1": 0
         },
         "2a": {
-            "present": 0,
-            "futur proche": 0,
-            "les adverbes": 0,
-            "interrogation inverse": 0
+            "Présent": 0,
+            "Futur proche": 0,
+            "Les adverbes": 0,
+            "Interrogation inversé": 0
         },
         "2b": {
-            "adjectifs possessifs et demonstratifs": 0,
-            "verbes pronominaux": 0,
-            "adjectifs": 0,
-            "les prepositions 2": 0,
-            "imperatif": 0
+            "Adjectifs possessifs et démonstratifs": 0,
+            "Verbes pronominaux": 0,
+            "Adjectifs": 0,
+            "Les prépositions 2": 0,
+            "Impératif": 0
         },
         "3a": {
-            "comparatif et superlatif": 0,
-            "adjectifs irreguliers": 0,
-            "adverbes": 0,
-            "jouer a, de + fare de": 0
+            "Comparatif et superlatif": 0,
+            "Adjectifs irréguliers": 0,
+            "Adverbes": 0,
+            "Jouer à, de + faire de": 0
         },
         "3b": {
-            "les mots lien 2": 0,
-            "complements d'object direct": 0,
-            "passe compose reguliers": 0,
-            "futur simple": 0
+            "Les mots lien 2": 0,
+            "Compléments d'object direct": 0,
+            "Passé composé réguliers": 0,
+            "Futur simple": 0
         },
         "4a": {
-            "present oir": 0,
-            "imperatif employe avec cod": 0,
-            "present avec changement orthographique": 0,
-            "la negation du passse compose": 0,
+            "Présent OIR": 0,
+            "Impératif employé avec COD": 0,
+            "Présent avec changement orthographique": 0,
+            "La négation du passé composé": 0,
         },
         "4b": {
-            "les participes passes irreguliers + pronominaux + negation": 0,
-            "imparfait + engation": 0,
-            "completions d'object indirect": 0,
-            "conditionnel present": 0
+            "Les participes passés irréguliers + pronominaux + négation": 0,
+            "i=Imparfait + négation": 0,
+            "Compléments d'object indirect": 0,
+            "Conditionnel présent": 0
         },
         "5a": {
-            "concordance des temps 1": 0,
-            "imperatif employe avec coi": 0,
-            "phrases de conditions 1": 0,
-            "y et en": 0
+            "Concordance des temps 1": 0,
+            "Impératif employe avec COI": 0,
+            "Phrases de conditions 1": 0,
+            "Y et en": 0
         },
         "5b": {
-            "verbes avec prepositions": 0,
-            "passe compose avec cod + accord": 0,
+            "Verbes avec prépositions": 0,
+            "Passé composé avec COD + accord": 0,
             "subjonctif 1": 0
         },
         "6a": {
-            "pronoms possessifs et relatifs": 0,
-            "les mots liens 3": 0,
-            "participe passe employe comme adjectif": 0,
+            "Pronoms possessifs et relatifs": 0,
+            "Les mots liens 3": 0,
+            "Participe passé employé comme adjectif": 0,
             "subjonctif 2": 0
         },
         "6b": {
-            "participe present": 0,
-            "plus-que-parfait": 0,
-            "futur anterieur": 0,
-            "conditionnel passe": 0,
-            "subjonctif 3": 0
+            "Participe présent": 0,
+            "Plus-que-parfait": 0,
+            "Futur antérieur": 0,
+            "Conditionnel passé": 0,
+            "Subjonctif 3": 0
         },
         "7a": {
-            "pronoms relatifs composes": 0,
-            "concordance des temps 2": 0,
-            "subjonctif 4": 0
+            "Pronoms relatifs composés": 0,
+            "Concordance des temps 2": 0,
+            "Subjonctif 4": 0
         },
         "7b": {
-            "subjonctif 5": 0,
-            "phrases de condition 2": 0
+            "Subjonctif 5": 0,
+            "Phrases de condition 2": 0
         },
         "8a": {
-            "pronoms demonstratifs": 0,
-            "passe simple - emploi": 0,
-            "subjonctif 6": 0
+            "Pronoms démonstratifs": 0,
+            "Passé simple - emploi": 0,
+            "Subjonctif 6": 0
         },
         "8b": {
-            "gerondif et adjectif verbal": 0,
-            "concordance des modes": 0
+            "Gérondif et adjectif verbal": 0,
+            "Concordance des modes": 0
         },
         "9a": {
-            "gerondif et adjectif verbal - participe present": 0,
-            "passe simple - emploi dans un texte": 0,
-            "subjonctif passe 1": 0
+            "Gérondif et adjectif verbal - participe présent": 0,
+            "Passé simple - emploi dans un texte": 0,
+            "Subjonctif passé 1": 0
         },
         "9b": {
-            "la voix passive": 0,
-            "subjonctif passe 2": 0
+            "La voix passive": 0,
+            "Subjonctif passé 2": 0
         }
     }
 
