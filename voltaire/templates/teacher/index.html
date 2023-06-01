@@ -16,7 +16,7 @@
             </tr>
             {% for student in students %}
                 <tr>
-                    <td>{{student["given_name"]}}</td>
+                    <td><a href={{url_for("teacher.view", _id = student["_id"])}}>{{student["given_name"]}}</a></td>
                     <td>{{student["family_name"]}}</td>
                     <td>{{student["grade"]}}</td>
                     <td>{{student["class"]}}</td>
@@ -45,7 +45,6 @@
             }
         }
     </script>
-    <p>Teacher moment</p>
 {% endblock %}
 
 {% block navbar_colour %}

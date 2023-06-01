@@ -7,9 +7,14 @@ from voltaire import db
 bp = Blueprint("teacher", __name__, url_prefix = "/t")
 
 def teacher_login(function):
-    def wrapper():
+    def wrapper(**kwargs):
         if session.get("type") != "teacher":
             return abort(401)
+        
+        # Check if arguments should be passed to the view function
+        if kwargs != {}:
+            return function(**kwargs)
+        
         return function()
     
     # Rename the wrapper to work for multiple functions
@@ -30,10 +35,17 @@ def index():
 def settings():
     return render_template("teacher/settings.html")
 
-@bp.route("/view/")
+@bp.route("/view/<_id>", methods = ("GET", "POST"))
 @teacher_login
 def view(_id):
-    dbLink = db.get_db().students.info
-    student = dbLink.find_one({"_id": _id})
+    dbLink = db.get_db().students.progress
 
-    return render_template("teacher/view.html", student = student)
+    if request.method == "POST":
+        print("among us", request.form)
+        for i in request.form:
+            dbLink.update_one({"_id": _id}, {"$set": {i: int(request.form[i])}})
+        flash("Succesfully updated")
+
+    # Retrieve the data after any potential updates to it
+    progress = dbLink.find_one({"_id": _id})
+    return render_template("teacher/view.html", progress = progress)

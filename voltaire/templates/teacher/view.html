@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block header %}
+    <div class = "container">
+      <br></br>
+    <h1>{% block title %}{{your_progress}}'s perspective{% endblock %}</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+  {% for level in progress if not level == "_id" %}
+  <div class="container">
+    <div class="notification">
+
+        <div class="tile is-vertical is-ancestor">
+          <div class = "tile">
+            <div class="tile is-parent is-10">
+              <div class="tile is-child">
+               <article class="tile is-child notification is-primary">
+                 <p class="title">{{level}}</p>
+               </article>
+              </div>
+           </div>
+           <div class="tile is-parent">
+             <div class="tile is-child">
+               <article class="tile is-child notification is-danger">
+                 <p class="title">{{progress[level].values()|sum}}/{{4*(progress[level]|length)}}</p>
+               </article>
+             </div>
+           </div>
+           </div>
+
+           <div class="tile">
+             {% for item in progress[level] %}
+               <div class="tile is-parent">
+                 <div class = "tile is-child box">
+                   <article class="tile">
+                    <!-- The ... operator unpacks the array from this.value.split() into separate values (much like * in python) so two arguments are passed to view_modal() -->
+                     <button class="title" value="{{level}}.{{item}}" onclick="view_modal(...this.value.split('.'))">{{item}}: {{progress[level][item]}}</button>
+                   </article>
+                 </div>
+               </div>
+             {% endfor %}
+             {% for i in range(5-progress[level]|length) %}
+             <div class="tile is-parent">
+               <div class = "tile is-child">
+                 <article class="tile">
+                   <p class="title"></p>
+                 </article>
+               </div>
+             </div>
+             {% endfor %}
+           </div>
+
+      </div>
+    </div>
+  {% endfor %}
+
+  <!-- Code adapated from https://www.w3schools.com/howto/howto_css_modals.asp -->
+  <!-- Modal box -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p id="modal-text"></p>
+      <form method="POST">
+        <label for="">Update skill level:</label>
+        <input type="number" name="" id="modal-skill-level" min="1" max="4" required>
+        <br>
+        <input type="submit" value="Update">
+      </form>
+    </div>
+  </div>
+
+  <script>
+  var modal = document.getElementById("modal");
+  var modal_text = document.getElementById("modal-text");
+  var modal_tag = document.getElementById("modal-skill-level");
+  var span = document.getElementsByClassName("close")[0]
+
+  function view_modal(level, skill) {
+    modal.style.display = "block";
+    modal_text.innerText = skill;
+    modal_tag.setAttribute("name", String(level) + "." + String(skill));
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+  </script>
+  <!-- Adapted code ends here -->
+{% endblock %}
+
+{% block navbar_colour %}
+"navbar is-success"
+{% endblock %}
+
+{% block navbar_start %}
+<div id="navbarBasicExample" class="navbar-menu">
+  <div class="navbar-start">
+    <a class="navbar-item" href={{url_for("teacher.settings")}}>{{settings}}</a>
+    <p class="navbar-item">{{welcome}}, {{session["given_name"]}}!</p>
+  </div>
+{% endblock %}
