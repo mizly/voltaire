@@ -4,8 +4,6 @@ from flask import Blueprint, abort, flash, g, redirect, render_template, request
 from voltaire.db import get_db
 from voltaire import languages
 
-#from werkzeug.security import check_password_hash, generatore_password_hash
-
 #__name__ passes name of this file, student.py
 bp = Blueprint("student", __name__, url_prefix = "/s")
 

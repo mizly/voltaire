@@ -3,8 +3,6 @@ import functools
 from flask import Blueprint, abort, flash, g, redirect, render_template, request, session, url_for
 from voltaire import db
 
-#from werkzeug.security import check_password_hash, generatore_password_hash
-
 #__name__ passes name of this file, student.py
 bp = Blueprint("teacher", __name__, url_prefix = "/t")
 

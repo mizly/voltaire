@@ -2,8 +2,6 @@ import functools
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from voltaire import languages
 
-#from werkzeug.security import check_password_hash, generatore_password_hash
-
 #__name__ passes name of this file, home.py
 bp = Blueprint("home", __name__)
 
