@@ -78,8 +78,7 @@ def create_app(test_config = None):
 
     @app.before_request
     def load_user():
-        if session.get("lang") is None:
-            session["lang"] = "en_CA"
+        session.setdefault("lang", "en_CA")
 
         g.lang = session.get("lang")
         g.user = session.get("_id")
@@ -166,7 +165,6 @@ def create_app(test_config = None):
     @app.route("/logout")
     def logout():
         session.clear()
-        session["lang"] = "en_CA"
         return redirect(url_for("home.index"))
 
     from voltaire import account, db, home, student, teacher
