@@ -97,7 +97,7 @@ def new_progress(id_info):
         },
         "4b": {
             "Les participes passés irréguliers + pronominaux + négation": 0,
-            "i=Imparfait + négation": 0,
+            "Imparfait + négation": 0,
             "Compléments d'object indirect": 0,
             "Conditionnel présent": 0
         },
