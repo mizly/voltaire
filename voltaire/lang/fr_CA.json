@@ -15,5 +15,10 @@
   "grade": "Année",
   "search": "Cherchez",
   "your_progress": "Votre Avancement",
-  "settings": "Settings"
+  "settings": "Paramètres",
+  "class": "Classe",
+  "default_lang": "Langue par défaut",
+  "submit": "Soumettre",
+  "update": "Mettre le niveau à jour",
+  "quote_herfst": "\"Enfin, une ressource compétente pour les enseignants du Français\" -Mme Herfst"
 }

@@ -15,5 +15,10 @@
   "grade": "Grade",
   "search": "Search",
   "your_progress": "Your Progress",
-  "settings": "Settings"
+  "settings": "Settings",
+  "class": "Class",
+  "default_lang": "Default Language",
+  "submit": "Submit",
+  "update": "Update skill level",
+  "quote_herfst": "\"Finally, an actually usable resource for French language teachers\" -Mme Herfst"
 }

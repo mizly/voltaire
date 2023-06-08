@@ -41,6 +41,6 @@ def settings():
         }})
 
         session["lang"] = default_lang
-        flash(f"It worked! {_grade} {_class} {default_lang}")
+        #flash(f"It worked! {_grade} {_class} {default_lang}")
 
     return render_template("student/settings.html",**languages[session["lang"]])

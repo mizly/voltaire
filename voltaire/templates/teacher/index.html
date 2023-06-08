@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 
 {% block header %}
+<div class="container">
+  <br></br>
     <h1>{% block title %}Teacher{% endblock %}</h1>
+    </div>
 {% endblock %}
 
 {% block content %}
+<div class="container">
     <input type="text" id="search" onkeyup="filter()" placeholder="Search...">
+    <br></br>
+      <div class="notification">
     <div class="dbtable">
         <table id="table">
             <tr>
@@ -23,6 +29,8 @@
                 </tr>
             {% endfor %}
         </table>
+    </div>
+    </div>
     </div>
 
     <script>
@@ -54,7 +62,7 @@
 {% block navbar_start %}
 <div id="navbarBasicExample" class="navbar-menu">
   <div class="navbar-start">
-    <a class="navbar-item">Home</a>
-    <p class="navbar-item">Welcome, {{session["given_name"]}}!</p>
+    <a class="navbar-item">{{home}}</a>
+    <p class="navbar-item">{{welcome}}, {{session["given_name"]}}!</p>
   </div>
 {% endblock %}

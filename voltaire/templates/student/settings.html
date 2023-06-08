@@ -1,26 +1,78 @@
 {% extends "base.html" %}
 {% block header %}
-    <h1>{% block title %}Settings{% endblock %}</h1>
+<div class = "container">
+  <br></br>
+<h1>{% block title %}{{settings}}{% endblock %}</h1>
+</div>
 {% endblock %}
 
 {% block content %}
+<div class = "container notification">
+  <div class="tile is-vertical is-ancestor">
   <form method="POST">
-    <label for="grade">Grade (9-12)</label>
-    <input type="number" name="grade" id="grade" min="9" max="12" title="Must be between 9 and 12" required>
-    <br>
-    <label for="class">Class</label>
-    <input type="text" name="class" id="class" required>
-    <br>
-    <label for="lang">Default Langauge</label>
-    <br>
-    <label for="en_CA">English (Canada)</label>
-    <input type="radio" name="lang" id="en_CA" value="en_CA" required>
-    <br>
-    <label for="fr_CA">Français (Canada)</label>
-    <input type="radio" name="lang" id="fr_CA" value="fr_CA" required>
-    <br>
-    <input type="submit" value="Submit">
+
+    <div class = "tile">
+      <div class="tile is-parent is-3">
+        <div class="tile is-child">
+         <article class="tile is-child notification">
+           <label for="grade" class="title">{{grade}} (9-12)</label>
+         </article>
+        </div>
+     </div>
+     <div class="tile is-parent">
+       <div class="tile is-child">
+         <article class="tile is-child notification">
+           <input class="title"type="number" name="grade" id="grade" min="9" max="12" title="Must be between 9 and 12" required>
+         </article>
+       </div>
+     </div>
+     </div>
+
+     <div class = "tile">
+       <div class="tile is-parent is-3">
+         <div class="tile is-child">
+          <article class="tile is-child notification">
+            <label for="class" class = "title">{{class}}</label>
+          </article>
+         </div>
+      </div>
+      <div class="tile is-parent">
+        <div class="tile is-child">
+          <article class="tile is-child notification">
+            <input class="title" name="class" id="class" required>
+          </article>
+        </div>
+      </div>
+      </div>
+
+      <div class = "tile">
+        <div class="tile is-parent is-3">
+          <div class="tile is-child">
+           <article class="tile is-child notification">
+             <label class="title"for="lang">{{default_lang}}</label>
+           </article>
+          </div>
+       </div>
+       <div class="tile">
+         <div class="tile is-child">
+           <article class="tile is-child notification">
+             <input type="radio" name="lang" id="en_CA" value="en_CA" required>
+             <label class="subtitle"for="en_CA">English (Canada)</label>
+             <br></br>
+             <input type="radio" name="lang" id="fr_CA" value="fr_CA" required>
+             <label class="subtitle"for="fr_CA">Français (Canada)</label>
+           </article>
+         </div>
+       </div>
+       </div>
+       <div class="tile is-parent">
+         <article class="tile is-child notification">
+         <input class="button is-success"type="submit" value={{submit}}>
+         </article>
+       </div>
   </form>
+  </div>
+  </div>
 {% endblock %}
 
 {% block navbar_colour %}
